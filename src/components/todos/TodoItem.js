@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-import Tags from '../Tags';
+import Tags from '../common/Tags';
 import {withStyles} from "@material-ui/core";
 
 const styles = {
@@ -26,29 +26,25 @@ const styles = {
 };
 
 class TodoItem extends React.Component {
-    onTagSelect() {
-        console.log(this.props);
-    }
-
     render() {
-        const { classes, todo } = this.props;
+        const { classes, todo, indexForDisplay } = this.props;
 
         return (
             <React.Fragment>
                 <TableRow className={classes.firstRow}>
-                    <TableCell align="center" component="th" scope="row">{todo.id}</TableCell>
+                    <TableCell align="center" component="th" scope="row">{indexForDisplay}</TableCell>
                     <TableCell>
                         {todo.title}
                     </TableCell>
                     <TableCell>
                         <FormControl>
-                            <Select value={todo.status}
-                                    onChange={this.props.onStatusChange}
+                            <Select value={todo._status}
+                                    onChange={event => this.props.onStatusChange(todo, event.target.value)}
                                     inputProps={{
                                         name: 'status',
                                         id: 'todo-status',
                                     }}>
-                                <MenuItem value="not-started">Not Started</MenuItem>
+                                <MenuItem value="not_started">Not Started</MenuItem>
                                 <MenuItem value="started">Started</MenuItem>
                                 <MenuItem value="finished">Finished</MenuItem>
                             </Select>

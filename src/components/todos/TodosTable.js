@@ -1,50 +1,39 @@
 import React from 'react';
-import {withStyles} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import {TableBody} from "@material-ui/core";
 import TodoItem from './TodoItem';
-
-const styles = {
-    firstRow: {
-        '& th': {
-            borderBottom: 0
-        },
-        '& td': {
-            borderBottom: 0
-        }
-    },
-    secondRowCell: {
-        paddingTop: 0
-    }
-};
+import NoDataMessageForTable from '../common/NoDataMessageForTable';
 
 class TodosTable extends React.Component {
-    onStatusChange = () => {
-        console.log('onStatusChange');
-        console.log(this);
+
+    getIndexForDisplay = (index) => {
+        const {page, itemsPerPage} = this.props;
+        return ((page - 1) * itemsPerPage) + index + 1;
     };
 
-    onTodoEdit = () => {
-        console.log('onTodoEdit');
-        console.log(this);
-    };
-
-    onTodoDelete = () => {
-        console.log('onTodoDelete');
-        console.log(this);
-    };
-
-    onTagSelect = () => {
-        console.log('onTagSelect');
-        console.log(this);
-    };
-
-    render() {
+    renderTodoItems() {
         const {todos} = this.props;
 
+        if(todos.length === 0) {
+            return <NoDataMessageForTable colSpan={4} message="There are no todos" />;
+        } else {
+            return todos.map((todo, index) => {
+                const indexForDisplay = this.getIndexForDisplay(index);
+                return <TodoItem key={todo._id.$oid}
+                                 indexForDisplay={indexForDisplay}
+                                 todo={todo}
+                                 onStatusChange={this.props.onTodoStatusChange}
+                                 onTagSelect={this.props.onTagSelect}
+                                 onTodoEdit={this.props.onTodoEdit}
+                                 onTodoDelete={this.props.onTodoDelete} />;
+            });
+        }
+    }
+
+    render() {
         return (
             <Table>
                 <TableHead>
@@ -55,19 +44,10 @@ class TodosTable extends React.Component {
                         <TableCell align="right" style={{width: '100px'}}>&nbsp;</TableCell>
                     </TableRow>
                 </TableHead>
-                <TableBody>
-                {
-                    todos.map(todo => <TodoItem key={todo.id}
-                                                todo={todo}
-                                                onStatusChange={this.onStatusChange}
-                                                onTagSelect={this.onTagSelect}
-                                                onTodoEdit={this.onTodoEdit}
-                                                onTodoDelete={this.onTodoDelete} />)
-                }
-                </TableBody>
+                <TableBody>{this.renderTodoItems()}</TableBody>
             </Table>
         );
     }
 }
 
-export default withStyles(styles)(TodosTable);
+export default TodosTable;
