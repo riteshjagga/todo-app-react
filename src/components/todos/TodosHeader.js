@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import TodosSearchBox from './TodosSearchBox';
 import TodosPagination from './TodosPagination';
+import history from '../../history';
 
 class TodosHeader extends React.Component {
     render() {
@@ -18,7 +19,10 @@ class TodosHeader extends React.Component {
                             <Typography variant="h6" color="inherit">Todos</Typography>
                         </Grid>
                         <Grid item>
-                            <Button variant="contained" color="primary">Add Todo</Button>
+                            {/*<Link to="/todos/add">
+                                Add Todo
+                            </Link>*/}
+                            <Button variant="contained" color="primary" onClick={() => history.push('/todos/add')}>Add Todo</Button>
                         </Grid>
                     </Grid>
                     <Grid item container justify="space-between" alignItems="center">
