@@ -1,16 +1,23 @@
 import React from 'react';
+import {NavLink} from 'react-router-dom';
 import {withStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import history from '../../history'
 
 const styles = {
     title: {
         color: 'inherit',
         flex: 1
+    },
+    link: {
+      color: '#fff',
+      textDecoration: 'none'
+    },
+    active: {
+        borderBottom: '4px solid #fff'
     }
 };
 
@@ -25,12 +32,16 @@ class AppHeader extends React.Component {
                         <Typography variant="h6" className={classes.title}>
                             Todo App
                         </Typography>
-                        <Button className={classes.button} color={"inherit"} onClick={() => history.push('/')}>
-                            Todos
-                        </Button>
-                        <Button className={classes.button} color={"inherit"} onClick={() => history.push('/tags')}>
-                            Tags
-                        </Button>
+                        <NavLink to="/todos" className={classes.link} activeClassName={classes.active}>
+                            <Button className={classes.button} color={"inherit"}>
+                                Todos
+                            </Button>
+                        </NavLink>
+                        <NavLink to="/tags" className={classes.link} activeClassName={classes.active}>
+                            <Button className={classes.button} color={"inherit"}>
+                                Tags
+                            </Button>
+                        </NavLink>
                     </Grid>
                 </Toolbar>
             </AppBar>

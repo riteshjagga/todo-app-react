@@ -3,30 +3,28 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import TodosSearchBox from './TodosSearchBox';
+import TagsSearchBox from './TagsSearchBox';
+import PaginationItems from '../common/PaginationItems';
 import history from '../../history';
-import PaginationItems from "../common/PaginationItems";
 
-class TodosHeader extends React.Component {
+class TagsHeader extends React.Component {
     render() {
-        const {loading, page, totalPages, itemsPerPage, totalTodos, selectedFilter, searchText} = this.props;
+        const {loading, page, totalPages, itemsPerPage, totalTags, searchText} = this.props;
 
         return (
             <Paper style={{padding: '20px 20px 0 20px'}}>
                 <Grid container direction="column" spacing={8} alignItems="flex-start" justify="space-between">
                     <Grid item container alignItems="flex-start" justify="space-between">
                         <Grid item>
-                            <Typography variant="h6" color="inherit">Todos</Typography>
+                            <Typography variant="h6" color="inherit">Tags</Typography>
                         </Grid>
                         <Grid item>
-                            <Button variant="contained" color="primary" onClick={() => history.push('/todos/new')}>Add Todo</Button>
+                            <Button variant="contained" color="primary" onClick={() => history.push('/tags/new')}>Add Tag</Button>
                         </Grid>
                     </Grid>
                     <Grid item container justify="space-between" alignItems="center">
                         <Grid item style={{flex: 1}}>
-                            <TodosSearchBox loading={loading}
-                                            selectedFilter={selectedFilter}
-                                            onFilterChange={this.props.onFilterChange}
+                            <TagsSearchBox loading={loading}
                                             searchText={searchText}
                                             onSearch={this.props.onSearch} />
                         </Grid>
@@ -35,7 +33,7 @@ class TodosHeader extends React.Component {
                                              page={page}
                                              totalPages={totalPages}
                                              itemsPerPage={itemsPerPage}
-                                             totalItems={totalTodos}
+                                             totalItems={totalTags}
                                              onPreviousPage={this.props.onPreviousPage}
                                              onNextPage={this.props.onNextPage}/>
                         </Grid>
@@ -46,4 +44,4 @@ class TodosHeader extends React.Component {
     }
 }
 
-export default TodosHeader;
+export default TagsHeader;

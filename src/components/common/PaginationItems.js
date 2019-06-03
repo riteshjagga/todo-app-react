@@ -5,7 +5,7 @@ import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import Tooltip from '@material-ui/core/Tooltip';
 
-class TodosPagination extends React.Component {
+class PaginationItems extends React.Component {
     firstPage = () => {
         return (this.props.page === 1);
     };
@@ -21,23 +21,23 @@ class TodosPagination extends React.Component {
     };
 
     toItems = () => {
-        const {page, itemsPerPage, totalTodos} = this.props;
+        const {page, itemsPerPage, totalItems} = this.props;
 
         let toItems = page * itemsPerPage;
-        if (toItems > totalTodos) {
-            toItems = totalTodos;
+        if (toItems > totalItems) {
+            toItems = totalItems;
         }
 
         return toItems;
     };
 
     render() {
-        const {totalTodos} = this.props;
+        const {totalItems} = this.props;
 
         return (
             <Grid container alignItems="center" spacing={8}>
                 <Grid item>
-                    <div>{this.fromItems()}-{this.toItems()} of {totalTodos}</div>
+                    <div>{this.fromItems()}-{this.toItems()} of {totalItems}</div>
                 </Grid>
                 <Grid item>
                     <Tooltip title="Previous Page">
@@ -65,4 +65,4 @@ class TodosPagination extends React.Component {
 }
 
 
-export default TodosPagination;
+export default PaginationItems;

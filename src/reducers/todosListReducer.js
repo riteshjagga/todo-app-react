@@ -1,7 +1,7 @@
 import TodoFilterEnum from '../enums/TodoFilterEnum';
 import {
     FETCH_TODOS_REQUEST, FETCH_TODOS_SUCCESS, FETCH_TODOS_FAILURE,
-    SET_FILTER, SET_SEARCH_TEXT,
+    SET_FILTER, SET_TODO_SEARCH_TEXT,
     UPDATE_TODO_STATUS_SUCCESS,
     DELETE_TODO_REQUEST, DELETE_TODO_SUCCESS, DELETE_TODO_FAILURE,
     RESTORE_TODO_REQUEST, RESTORE_TODO_SUCCESS, RESTORE_TODO_FAILURE
@@ -79,7 +79,7 @@ const todosListReducer = (state = INITIAL_STATE, action) => {
         case SET_FILTER: {
             return {...state, filter: action.payload};
         }
-        case SET_SEARCH_TEXT: {
+        case SET_TODO_SEARCH_TEXT: {
             return {...state, searchText: action.payload};
         }
         default: {

@@ -1,21 +1,15 @@
 import React from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-import Divider from '@material-ui/core/Divider';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import Button from '@material-ui/core/Button';
-import ArrowDropDownCircleIcon from '@material-ui/icons/ArrowDropDown';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 import ClearIcon from '@material-ui/icons/Clear';
 import Tooltip from '@material-ui/core/Tooltip';
 
-import TodoFilterEnum from '../../enums/TodoFilterEnum';
 import {connect} from 'react-redux';
-import {setTodoSearchText} from '../../actions';
+import {setTagSearchText} from '../../actions';
 
 const styles = {
     hide: {
@@ -47,22 +41,7 @@ const styles = {
     }
 };
 
-class TodosSearchBox extends React.Component {
-
-    state = {anchorEl: null};
-
-    handleClick = event => {
-        this.setState({anchorEl: event.currentTarget});
-    };
-
-    handleClose = () => {
-        this.setState({anchorEl: null});
-    };
-
-    handleMenuItemClick = (event, selectedFilter) => {
-        this.setState({anchorEl: null});
-        this.props.onFilterChange(selectedFilter);
-    };
+class TagsSearchBox extends React.Component {
 
     onSearch = searchText => {
         this.props.onSearch(searchText);
@@ -78,23 +57,12 @@ class TodosSearchBox extends React.Component {
     };
 
     render() {
-        const filters = TodoFilterEnum.toArray();
-        const { anchorEl } = this.state;
-        const { classes, loading, selectedFilter, searchText } = this.props;
+        const { classes, loading, searchText } = this.props;
 
         return (
             <form onSubmit={this.onFormSubmit} noValidate autoComplete="off">
                 <Paper className={classes.root} elevation={1}>
-                    <Button aria-owns={anchorEl ? 'todos-filter-menu' : undefined} aria-haspopup="true" onClick={this.handleClick}>
-                        {selectedFilter.label} <ArrowDropDownCircleIcon/>
-                    </Button>
-                    <Menu id="todos-filter-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={this.handleClose}>
-                        {filters.map(filter => (<MenuItem key={filter.key} onClick={event => this.handleMenuItemClick(event, filter)}>{filter.label}</MenuItem>))}
-                    </Menu>
-
-                    <Divider className={classes.divider} />
-
-                    <InputBase className={classes.input} placeholder="Search Todos" value={searchText} onChange={event => this.props.setTodoSearchText(event.target.value)} />
+                    <InputBase className={classes.input} placeholder="Search tags by name" value={searchText} onChange={event => this.props.setTagSearchText(event.target.value)} />
                     
                     <CircularProgress size={24} className={`${classes.progress} ${loading ? classes.show : classes.hide}`} />
 
@@ -119,11 +87,11 @@ class TodosSearchBox extends React.Component {
     }
 }
 
-const TodosSearchBoxStyled = withStyles(styles)(TodosSearchBox);
+const TagsSearchBoxStyled = withStyles(styles)(TagsSearchBox);
 
 const mapStateToProps = (state) => {
-    return state.todosList;
+    return state.tagsList;
 };
 
-export default connect(mapStateToProps, {setTodoSearchText})(TodosSearchBoxStyled);
+export default connect(mapStateToProps, {setTagSearchText})(TagsSearchBoxStyled);
 

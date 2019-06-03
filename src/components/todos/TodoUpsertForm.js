@@ -40,7 +40,7 @@ const styles = {
 class TodoUpsertForm extends React.Component {
 
     goBack = () => {
-        history.push('/');
+        history.push('/todos');
     };
 
     renderTitle = ({input, meta, required}) => {

@@ -1,9 +1,12 @@
 import todoApi from '../apis/todoApi';
 import {
     FETCH_TODOS_REQUEST, FETCH_TODOS_SUCCESS, FETCH_TODOS_FAILURE,
-    SET_FILTER, SET_SEARCH_TEXT,
+    SET_FILTER, SET_TODO_SEARCH_TEXT,
     UPDATE_TODO_STATUS_REQUEST, UPDATE_TODO_STATUS_SUCCESS, UPDATE_TODO_STATUS_FAILURE,
     GET_TAGS_REQUEST, GET_TAGS_SUCCESS, GET_TAGS_FAILURE,
+    SET_TAG_SEARCH_TEXT,
+    GET_TAG_REQUEST, GET_TAG_SUCCESS, GET_TAG_FAILURE,
+    UPSERT_TAG_REQUEST, UPSERT_TAG_SUCCESS, UPSERT_TAG_FAILURE,
     GET_TODO_TAGS_REQUEST, GET_TODO_TAGS_SUCCESS, GET_TODO_TAGS_FAILURE,
     UPSERT_TODO_REQUEST, UPSERT_TODO_SUCCESS, UPSERT_TODO_FAILURE,
     DELETE_TODO_REQUEST, DELETE_TODO_SUCCESS, DELETE_TODO_FAILURE,
@@ -19,9 +22,16 @@ export const setFilter = filter => {
     }
 };
 
-export const setSearchText = searchText => {
+export const setTodoSearchText = searchText => {
     return {
-        type: SET_SEARCH_TEXT,
+        type: SET_TODO_SEARCH_TEXT,
+        payload: searchText
+    }
+};
+
+export const setTagSearchText = searchText => {
+    return {
+        type: SET_TAG_SEARCH_TEXT,
         payload: searchText
     }
 };
@@ -73,19 +83,8 @@ export const setFilterAndFetchTodos = filter => async (dispatch, getState) => {
 };
 
 export const setSearchTextAndFetchTodos = searchText => async (dispatch, getState) => {
-    dispatch(setSearchText(searchText));
+    dispatch(setTodoSearchText(searchText));
     await dispatch(fetchTodos(1));
-};
-
-export const getTags = () => async dispatch => {
-    dispatch({type: GET_TAGS_REQUEST});
-
-    try {
-        const response = await todoApi.get('/tags');
-        dispatch({type: GET_TAGS_SUCCESS, payload: response.data});
-    } catch(error) {
-        dispatch({type: GET_TAGS_FAILURE, payload: error});
-    }
 };
 
 export const getTodoTags = (todoId = null) => async dispatch => {
@@ -112,7 +111,7 @@ export const upsertTodo = (todoId, formValues) => async dispatch => {
     dispatch({type: UPSERT_TODO_REQUEST});
 
     try {
-        const response = await ((todoId) ? todoApi.put(`/todos/${todoId}`, {todo: {...formValues}}) : todoApi.post('/todos', {todo: {...formValues}}));
+        const response = await (todoId ? todoApi.put(`/todos/${todoId}`, {todo: {...formValues}}) : todoApi.post('/todos', {todo: {...formValues}}));
         dispatch({type: UPSERT_TODO_SUCCESS, payload: response.data});
         history.push('/');
     } catch(error) {
@@ -140,5 +139,52 @@ export const restoreTodo = todoId => async dispatch => {
         dispatch(fetchTodos(1));
     } catch(error) {
         dispatch({type: RESTORE_TODO_FAILURE, payload: {id: todoId, error}});
+    }
+};
+
+export const setSearchTextAndGetTags = searchText => async (dispatch, getState) => {
+    dispatch(setTagSearchText(searchText));
+    await dispatch(getTags(1));
+};
+
+export const getTags = page => async (dispatch, getState) => {
+    dispatch({type: GET_TAGS_REQUEST});
+
+    const { itemsPerPage, searchText } = getState().tagsList;
+    const params = {page, items_per_page: itemsPerPage};
+
+    if (searchText !== '') {
+        params.name = searchText;
+    }
+
+    try {
+        const response = await todoApi.get('/tags', {params});
+        const {tags, count: totalTags} = response.data;
+        dispatch({type: GET_TAGS_SUCCESS, payload: {page, tags, totalTags}});
+    } catch(error) {
+        dispatch({type: GET_TAGS_FAILURE, payload: error});
+    }
+};
+
+export const getTag = tagId => async dispatch => {
+    dispatch({type: GET_TAG_REQUEST});
+
+    try {
+        const response = await todoApi.get(`/tags/${tagId}`);
+        dispatch({type: GET_TAG_SUCCESS, payload: {tag: response.data}});
+    } catch(error) {
+        dispatch({type: GET_TAG_FAILURE, payload: error});
+    }
+};
+
+export const upsertTag = (tagId, formValues) => async dispatch => {
+    dispatch({type: UPSERT_TAG_REQUEST});
+
+    try {
+        const response = await (tagId ? todoApi.put(`/tags/${tagId}`, {tag: {...formValues}}) : todoApi.post('/tags', {tag: {...formValues}}));
+        dispatch({type: UPSERT_TAG_SUCCESS, payload: response.data});
+        history.push('/tags');
+    } catch(error) {
+        dispatch({type: UPSERT_TAG_FAILURE, payload: error});
     }
 };

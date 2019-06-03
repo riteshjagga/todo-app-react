@@ -1,21 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
 import TagUpsertForm from './TagUpsertForm';
+import {upsertTag} from '../../actions';
 
 class TagCreate extends React.Component {
+
+    onSubmit = formValues => {
+        this.props.upsertTag(null, formValues);
+    };
+
     render() {
-        return (
-            <div>
-                <div>TagCreate</div>
-                <TagUpsertForm></TagUpsertForm>
-            </div>
-        )
+        return <TagUpsertForm title="Add Tag" onSubmit={this.onSubmit}/>;
     }
 }
 
 const mapStateToProps = state => {
-    return state.tagsList;
+    return {...state.upsertTag};
 };
 
-export default connect(mapStateToProps)(TagCreate);
+export default connect(mapStateToProps, {upsertTag})(TagCreate);
