@@ -5,7 +5,8 @@ import {
 } from '../actions/types';
 
 const INITIAL_STATE = {
-    loading: false,
+    loading: true,
+    isNew: true,
     todo: {
         title: '',
         tag_ids: []
@@ -13,7 +14,7 @@ const INITIAL_STATE = {
     tags: []
 };
 
-const createTodoReducer = (state = INITIAL_STATE, action) => {
+const upsertTodoReducer = (state = INITIAL_STATE, action) => {
     switch(action.type) {
         case GET_TODO_TAGS_REQUEST:
             return {...state, loading: true};
@@ -26,4 +27,4 @@ const createTodoReducer = (state = INITIAL_STATE, action) => {
     }
 };
 
-export default createTodoReducer;
+export default upsertTodoReducer;

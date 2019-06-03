@@ -11,6 +11,7 @@ import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
 import ClearIcon from '@material-ui/icons/Clear';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import TodoFilterEnum from '../../enums/TodoFilterEnum';
 import {connect} from 'react-redux';
@@ -97,16 +98,20 @@ class TodosSearchBox extends React.Component {
                     
                     <CircularProgress size={24} className={`${classes.progress} ${loading ? classes.show : classes.hide}`} />
 
-                    <IconButton aria-label="Clear Search"
-                                onClick={() => this.onClearSearch('')}
-                                className={`${classes.iconButton} ${(searchText.length === 0) ? classes.hide : classes.show} ${loading ? classes.hide : classes.show}`}>
-                        <ClearIcon />
-                    </IconButton>
-                    <IconButton aria-label="Search"
-                                onClick={() => this.onSearch(searchText)}
-                                className={`${classes.iconButton} ${(searchText.length === 0) ? classes.show : classes.hide} ${loading ? classes.hide : classes.show}`}>
-                        <SearchIcon />
-                    </IconButton>
+                    <Tooltip title="Clear Search">
+                        <IconButton aria-label="Clear Search"
+                                    onClick={() => this.onClearSearch('')}
+                                    className={`${classes.iconButton} ${(searchText.length === 0) ? classes.hide : classes.show} ${loading ? classes.hide : classes.show}`}>
+                            <ClearIcon />
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Search">
+                        <IconButton aria-label="Search"
+                                    onClick={() => this.onSearch(searchText)}
+                                    className={`${classes.iconButton} ${(searchText.length === 0) ? classes.show : classes.hide} ${loading ? classes.hide : classes.show}`}>
+                            <SearchIcon />
+                        </IconButton>
+                    </Tooltip>
                 </Paper>
 
             </form>

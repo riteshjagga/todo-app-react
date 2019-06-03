@@ -1,17 +1,32 @@
 import todoApi from '../apis/todoApi';
 import {
     FETCH_TODOS_REQUEST, FETCH_TODOS_SUCCESS, FETCH_TODOS_FAILURE,
-    SET_FILTER,
-    SET_SEARCH_TEXT,
-    UPDATE_TODO_STATUS,
+    SET_FILTER, SET_SEARCH_TEXT,
+    UPDATE_TODO_STATUS_REQUEST, UPDATE_TODO_STATUS_SUCCESS, UPDATE_TODO_STATUS_FAILURE,
     GET_TAGS_REQUEST, GET_TAGS_SUCCESS, GET_TAGS_FAILURE,
     GET_TODO_TAGS_REQUEST, GET_TODO_TAGS_SUCCESS, GET_TODO_TAGS_FAILURE,
-    CREATE_TODO_REQUEST, CREATE_TODO_SUCCESS, CREATE_TODO_FAILURE
+    UPSERT_TODO_REQUEST, UPSERT_TODO_SUCCESS, UPSERT_TODO_FAILURE,
+    DELETE_TODO_REQUEST, DELETE_TODO_SUCCESS, DELETE_TODO_FAILURE,
+    RESTORE_TODO_REQUEST, RESTORE_TODO_SUCCESS, RESTORE_TODO_FAILURE
 } from './types';
 import TodoFilterEnum from '../enums/TodoFilterEnum';
 import history from '../history';
 
-export const fetchTodos = (page) => async (dispatch, getState) => {
+export const setFilter = filter => {
+    return {
+        type: SET_FILTER,
+        payload: filter
+    }
+};
+
+export const setSearchText = searchText => {
+    return {
+        type: SET_SEARCH_TEXT,
+        payload: searchText
+    }
+};
+
+export const fetchTodos = page => async (dispatch, getState) => {
     dispatch({type: FETCH_TODOS_REQUEST});
 
     const { itemsPerPage, filter, searchText } = getState().todosList;
@@ -34,34 +49,21 @@ export const fetchTodos = (page) => async (dispatch, getState) => {
 
     try {
         const response = await todoApi.get(url, {params});
-        dispatch({type: FETCH_TODOS_SUCCESS, payload: {page, data: response.data}});
+        const {todos, count: totalTodos} = response.data;
+        dispatch({type: FETCH_TODOS_SUCCESS, payload: {page, todos, totalTodos}});
     } catch(error) {
         dispatch({type: FETCH_TODOS_FAILURE, payload: error});
     }
 };
 
-export const updateTodoStatus = (id, status) => async dispatch => {
+export const updateTodoStatus = (todoId, status) => async dispatch => {
+    dispatch({type: UPDATE_TODO_STATUS_REQUEST});
     try {
-        console.log(`Updating todo status => ${id} - ${status}`);
-        const response = await todoApi.patch(`/todos/${id}/update_status`, {status});
-        console.log(response);
-        dispatch({type: UPDATE_TODO_STATUS, payload: {id, status}});
+        console.log(`Updating todo status => ${todoId} - ${status}`);
+        await todoApi.patch(`/todos/${todoId}/update_status`, {status});
+        dispatch({type: UPDATE_TODO_STATUS_SUCCESS, payload: {id: todoId, status}});
     } catch(error) {
-        console.log(error);
-    }
-};
-
-export const setFilter = filter => {
-    return {
-        type: SET_FILTER,
-        payload: filter
-    }
-};
-
-export const setSearchText = searchText => {
-    return {
-        type: SET_SEARCH_TEXT,
-        payload: searchText
+        dispatch({type: UPDATE_TODO_STATUS_FAILURE, payload: error});
     }
 };
 
@@ -86,35 +88,57 @@ export const getTags = () => async dispatch => {
     }
 };
 
-export const getTodoTags = todoId => async dispatch => {
-    const isNew = (todoId === undefined);
+export const getTodoTags = (todoId = null) => async dispatch => {
     dispatch({type: GET_TODO_TAGS_REQUEST});
+    const isNew = (todoId === null);
 
     try {
         const tagsResponse = await todoApi.get('/tags');
         const tags = tagsResponse.data.tags.map(tag => ({id: tag._id.$oid, name: tag.name}));
 
-        let todoResponse = null;
-        if(isNew) {
-            todoResponse = Promise.resolve({title: ''});
-        } else {
-            todoResponse = Promise.resolve({title: 'Title to be edited'});
-        }
+        const todoResponse = await (isNew ? Promise.resolve({data: {title: '', tag_ids: []}}) : todoApi.get(`/todos/${todoId}`));
+        const todo = todoResponse.data;
+        todo.tag_ids = todo.tag_ids.map(tagId => {
+            return tagId.$oid;
+        });
 
-        dispatch({type: GET_TODO_TAGS_SUCCESS, payload: {tags, todo: todoResponse, isNew}});
+        dispatch({type: GET_TODO_TAGS_SUCCESS, payload: {isNew, todo, tags}});
     } catch(error) {
         dispatch({type: GET_TODO_TAGS_FAILURE, payload: error});
     }
 };
 
-export const createTodo = formValues => async dispatch => {
-    dispatch({type: CREATE_TODO_REQUEST});
+export const upsertTodo = (todoId, formValues) => async dispatch => {
+    dispatch({type: UPSERT_TODO_REQUEST});
 
     try {
-        const response = await todoApi.post('/todos', {todo: {...formValues}});
-        dispatch({type: CREATE_TODO_SUCCESS, payload: response.data});
+        const response = await ((todoId) ? todoApi.put(`/todos/${todoId}`, {todo: {...formValues}}) : todoApi.post('/todos', {todo: {...formValues}}));
+        dispatch({type: UPSERT_TODO_SUCCESS, payload: response.data});
         history.push('/');
     } catch(error) {
-        dispatch({type: CREATE_TODO_FAILURE, payload: error});
+        dispatch({type: UPSERT_TODO_FAILURE, payload: error});
+    }
+};
+
+export const deleteTodo = todoId => async dispatch => {
+    console.log(todoId);
+    dispatch({type: DELETE_TODO_REQUEST, payload: {id: todoId}});
+    try {
+        await todoApi.delete(`/todos/${todoId}`);
+        dispatch({type: DELETE_TODO_SUCCESS, payload: {id: todoId}});
+        dispatch(fetchTodos(1));
+    } catch(error) {
+        dispatch({type: DELETE_TODO_FAILURE, payload: {id: todoId, error}});
+    }
+};
+
+export const restoreTodo = todoId => async dispatch => {
+    dispatch({type: RESTORE_TODO_REQUEST, payload: {id: todoId}});
+    try {
+        await todoApi.patch(`/todos/${todoId}/undo_delete`);
+        dispatch({type: RESTORE_TODO_SUCCESS, payload: {id: todoId}});
+        dispatch(fetchTodos(1));
+    } catch(error) {
+        dispatch({type: RESTORE_TODO_FAILURE, payload: {id: todoId, error}});
     }
 };

@@ -1,12 +1,12 @@
 import { combineReducers} from 'redux';
 import todosListReducer from './todosListReducer';
-import createTodoReducer from './createTodoReducer';
+import upsertTodoReducer from './upsertTodoReducer';
 import tagsListReducer from './tagsListReducer';
 import {reducer as formReducer} from 'redux-form';
 
 export default combineReducers({
     todosList: todosListReducer,
-    createTodo: createTodoReducer,
+    upsertTodo: upsertTodoReducer,
     tagsList: tagsListReducer,
     form: formReducer
 });

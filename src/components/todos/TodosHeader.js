@@ -22,7 +22,7 @@ class TodosHeader extends React.Component {
                             {/*<Link to="/todos/add">
                                 Add Todo
                             </Link>*/}
-                            <Button variant="contained" color="primary" onClick={() => history.push('/todos/add')}>Add Todo</Button>
+                            <Button variant="contained" color="primary" onClick={() => history.push('/todos/new')}>Add Todo</Button>
                         </Grid>
                     </Grid>
                     <Grid item container justify="space-between" alignItems="center">

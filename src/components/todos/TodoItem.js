@@ -7,9 +7,12 @@ import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import RestoreIcon from '@material-ui/icons/Restore';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import Tags from '../common/Tags';
 import {withStyles} from "@material-ui/core";
+import history from '../../history';
 
 const styles = {
     firstRow: {
@@ -51,8 +54,16 @@ class TodoItem extends React.Component {
                         </FormControl>
                     </TableCell>
                     <TableCell align="right">
-                        <IconButton onClick={this.props.onTodoEdit}><EditIcon/></IconButton>
-                        <IconButton onClick={this.props.onTodoDelete}><DeleteIcon/></IconButton>
+                        <Tooltip title="Edit">
+                            <IconButton onClick={() => history.push(`/todos/edit/${todo._id.$oid}`)}><EditIcon/></IconButton>
+                        </Tooltip>
+                        <Tooltip title={todo.is_deleted ? 'Restore' : 'Delete'}>
+                        {
+                            todo.is_deleted
+                                ? <IconButton onClick={() => this.props.onTodoRestore(todo._id.$oid)} disabled={todo.actionLoading}><RestoreIcon/></IconButton>
+                                : <IconButton onClick={() => this.props.onTodoDelete(todo._id.$oid)} disabled={todo.actionLoading}><DeleteIcon/></IconButton>
+                        }
+                        </Tooltip>
                     </TableCell>
                 </TableRow>
                 <TableRow className={classes.secondRow}>

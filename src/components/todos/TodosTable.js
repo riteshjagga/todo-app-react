@@ -28,7 +28,8 @@ class TodosTable extends React.Component {
                                  onStatusChange={this.props.onTodoStatusChange}
                                  onTagSelect={this.props.onTagSelect}
                                  onTodoEdit={this.props.onTodoEdit}
-                                 onTodoDelete={this.props.onTodoDelete} />;
+                                 onTodoDelete={this.props.onTodoDelete}
+                                 onTodoRestore={this.props.onTodoRestore}/>;
             });
         }
     }

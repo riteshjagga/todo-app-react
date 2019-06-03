@@ -7,7 +7,9 @@ import {
     fetchTodos,
     setFilterAndFetchTodos,
     setSearchTextAndFetchTodos,
-    updateTodoStatus
+    updateTodoStatus,
+    deleteTodo,
+    restoreTodo
 } from "../../actions";
 import TodosTable from './TodosTable';
 
@@ -53,6 +55,14 @@ class TodosList extends React.Component {
         this.props.setFilterAndFetchTodos(filter);
     };
 
+    handleTodoDelete = todoId => {
+      this.props.deleteTodo(todoId);
+    };
+
+    handleTodoRestore = todoId => {
+        this.props.restoreTodo(todoId);
+    };
+
     render() {
         const { loading, todos, totalTodos, page, totalPages, itemsPerPage, searchText, filter } = this.props;
 
@@ -74,6 +84,8 @@ class TodosList extends React.Component {
                             totalPages={totalPages}
                             itemsPerPage={itemsPerPage}
                             onTodoStatusChange={this.handleTodoStatusChange}
+                            onTodoDelete={this.handleTodoDelete}
+                            onTodoRestore={this.handleTodoRestore}
                             onTagSelect={this.handleTagSelect}/>
             </Paper>
         );
@@ -88,5 +100,7 @@ export default connect(mapStateToProps, {
     fetchTodos,
     setFilterAndFetchTodos,
     setSearchTextAndFetchTodos,
-    updateTodoStatus
+    updateTodoStatus,
+    deleteTodo,
+    restoreTodo
 })(TodosList);

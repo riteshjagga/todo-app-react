@@ -3,6 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import IconButton from '@material-ui/core/IconButton';
 import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
+import Tooltip from '@material-ui/core/Tooltip';
 
 class TodosPagination extends React.Component {
     firstPage = () => {
@@ -39,16 +40,24 @@ class TodosPagination extends React.Component {
                     <div>{this.fromItems()}-{this.toItems()} of {totalTodos}</div>
                 </Grid>
                 <Grid item>
-                    <IconButton color="default"
-                                disabled={this.firstPage()}
-                                onClick={this.props.onPreviousPage}>
-                        <KeyboardArrowLeftIcon />
-                    </IconButton>
-                    <IconButton color="default"
-                                disabled={this.lastPage()}
-                                onClick={this.props.onNextPage}>
-                        <KeyboardArrowRightIcon />
-                    </IconButton>
+                    <Tooltip title="Previous Page">
+                        <span>
+                            <IconButton color="default"
+                                        disabled={this.firstPage()}
+                                        onClick={this.props.onPreviousPage}>
+                                <KeyboardArrowLeftIcon />
+                            </IconButton>
+                        </span>
+                    </Tooltip>
+                    <Tooltip title="Next Page">
+                        <span>
+                            <IconButton color="default"
+                                        disabled={this.lastPage()}
+                                        onClick={this.props.onNextPage}>
+                                <KeyboardArrowRightIcon />
+                            </IconButton>
+                        </span>
+                    </Tooltip>
                 </Grid>
             </Grid>
         );
