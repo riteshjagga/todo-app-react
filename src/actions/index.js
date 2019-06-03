@@ -113,7 +113,7 @@ export const upsertTodo = (todoId, formValues) => async dispatch => {
     try {
         const response = await (todoId ? todoApi.put(`/todos/${todoId}`, {todo: {...formValues}}) : todoApi.post('/todos', {todo: {...formValues}}));
         dispatch({type: UPSERT_TODO_SUCCESS, payload: response.data});
-        history.push('/');
+        history.push('/todos');
     } catch(error) {
         dispatch({type: UPSERT_TODO_FAILURE, payload: error});
     }

@@ -94,7 +94,7 @@ class TodosSearchBox extends React.Component {
 
                     <Divider className={classes.divider} />
 
-                    <InputBase className={classes.input} placeholder="Search Todos" value={searchText} onChange={event => this.props.setTodoSearchText(event.target.value)} />
+                    <InputBase className={classes.input} placeholder="Search todos" value={searchText} onChange={event => this.props.setTodoSearchText(event.target.value)} />
                     
                     <CircularProgress size={24} className={`${classes.progress} ${loading ? classes.show : classes.hide}`} />
 
