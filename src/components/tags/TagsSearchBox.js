@@ -23,9 +23,12 @@ const styles = {
     },
     root: {
         padding: '2px 4px',
+        paddingLeft: 24,
         display: 'flex',
         alignItems: 'center',
-        width: 400,
+        maxWidth: 500,
+        backgroundColor: '#f1f3f4',
+        borderRadius: 0
     },
     input: {
         marginLeft: 8,
@@ -61,7 +64,7 @@ class TagsSearchBox extends React.Component {
 
         return (
             <form onSubmit={this.onFormSubmit} noValidate autoComplete="off">
-                <Paper className={classes.root} elevation={1}>
+                <Paper className={classes.root} elevation={0}>
                     <InputBase className={classes.input} placeholder="Search tags by name" value={searchText} onChange={event => this.props.setTagSearchText(event.target.value)} />
                     
                     <CircularProgress size={24} className={`${classes.progress} ${loading ? classes.show : classes.hide}`} />

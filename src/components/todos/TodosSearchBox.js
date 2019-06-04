@@ -29,9 +29,12 @@ const styles = {
     },
     root: {
         padding: '2px 4px',
+        paddingLeft: 24,
         display: 'flex',
         alignItems: 'center',
-        width: 400,
+        maxWidth: 500,
+        backgroundColor: '#f1f3f4',
+        borderRadius: 0
     },
     input: {
         marginLeft: 8,
@@ -84,7 +87,7 @@ class TodosSearchBox extends React.Component {
 
         return (
             <form onSubmit={this.onFormSubmit} noValidate autoComplete="off">
-                <Paper className={classes.root} elevation={1}>
+                <Paper className={classes.root} elevation={0}>
                     <Button aria-owns={anchorEl ? 'todos-filter-menu' : undefined} aria-haspopup="true" onClick={this.handleClick}>
                         {selectedFilter.label} <ArrowDropDownCircleIcon/>
                     </Button>

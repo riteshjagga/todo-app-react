@@ -33,7 +33,8 @@ const styles = {
     },
     container: {
         padding: 20,
-        minHeight: 250
+        minHeight: 250,
+        borderRadius: 0
     }
 };
 
@@ -96,7 +97,7 @@ class TodoUpsertForm extends React.Component {
 
         return (
             <div>
-                <AppBar position="static" color="primary">
+                <AppBar position="static" color="default">
                     <Toolbar>
                         <IconButton color="inherit" onClick={this.goBack}>
                             <ArrowBackIcon />

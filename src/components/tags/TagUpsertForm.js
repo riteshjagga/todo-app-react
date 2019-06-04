@@ -32,7 +32,8 @@ const styles = {
     },
     container: {
         padding: 20,
-        minHeight: 250
+        minHeight: 250,
+        borderRadius: 0
     }
 };
 

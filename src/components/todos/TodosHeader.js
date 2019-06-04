@@ -1,4 +1,5 @@
 import React from 'react';
+import {withStyles} from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -7,14 +8,24 @@ import TodosSearchBox from './TodosSearchBox';
 import history from '../../history';
 import PaginationItems from "../common/PaginationItems";
 
+const styles = {
+    itemRow: {
+        padding: '10px 24px',
+        borderBottom: '1px solid #e0e0e0',
+        '&:last-child': {
+            padding: '0 24px 0 0'
+        }
+    }
+};
+
 class TodosHeader extends React.Component {
     render() {
-        const {loading, page, totalPages, itemsPerPage, totalTodos, selectedFilter, searchText} = this.props;
+        const {classes, loading, page, totalPages, itemsPerPage, totalTodos, selectedFilter, searchText} = this.props;
 
         return (
-            <Paper style={{padding: '20px 20px 0 20px'}}>
-                <Grid container direction="column" spacing={8} alignItems="flex-start" justify="space-between">
-                    <Grid item container alignItems="flex-start" justify="space-between">
+            <Paper elevation={0} style={{borderRadius: 0}}>
+                <Grid container direction="column" alignItems="flex-start" justify="space-between">
+                    <Grid item container alignItems="flex-start" justify="space-between" className={classes.itemRow}>
                         <Grid item>
                             <Typography variant="h6" color="inherit">Todos</Typography>
                         </Grid>
@@ -22,7 +33,7 @@ class TodosHeader extends React.Component {
                             <Button variant="contained" color="primary" onClick={() => history.push('/todos/new')}>Add Todo</Button>
                         </Grid>
                     </Grid>
-                    <Grid item container justify="space-between" alignItems="center">
+                    <Grid item container alignItems="center" justify="space-between" className={classes.itemRow}>
                         <Grid item style={{flex: 1}}>
                             <TodosSearchBox loading={loading}
                                             selectedFilter={selectedFilter}
@@ -46,4 +57,4 @@ class TodosHeader extends React.Component {
     }
 }
 
-export default TodosHeader;
+export default withStyles(styles)(TodosHeader);
