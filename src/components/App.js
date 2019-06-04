@@ -1,5 +1,5 @@
 import React from 'react';
-import {Router, Route} from 'react-router-dom';
+import {Router, Route, Redirect} from 'react-router-dom';
 import TodosList from './todos/TodosList';
 import TodoCreate from './todos/TodoCreate';
 import TodoEdit from './todos/TodoEdit';
@@ -15,6 +15,9 @@ class App extends React.Component {
         <div>
             <Router history={history}>
                 <AppHeader/>
+                <Route exact path="/" render={() => (
+                    <Redirect to="/todos"/>
+                )}/>
                 <Route path="/todos" exact component={TodosList} />
                 <Route path="/todos/new" component={TodoCreate} />
                 <Route path="/todos/edit/:id" component={TodoEdit} />
