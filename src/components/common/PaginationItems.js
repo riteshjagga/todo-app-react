@@ -37,7 +37,7 @@ class PaginationItems extends React.Component {
         return (
             <Grid container alignItems="center" spacing={8}>
                 <Grid item>
-                    <div>{this.fromItems()}-{this.toItems()} of {totalItems}</div>
+                    <div id="pagination-text">{this.fromItems()}-{this.toItems()} of {totalItems}</div>
                 </Grid>
                 <Grid item>
                     <Tooltip title="Previous Page">

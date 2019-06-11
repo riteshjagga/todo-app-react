@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import TagUpsertForm from './TagUpsertForm';
 import {getTag, upsertTag} from '../../actions';
 
-
 class TagEdit extends React.Component {
     componentDidMount() {
         this.props.getTag(this.props.match.params.id);

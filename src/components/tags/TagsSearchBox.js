@@ -1,6 +1,5 @@
 import React from 'react';
 import {withStyles} from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
@@ -12,23 +11,12 @@ import {connect} from 'react-redux';
 import {setTagSearchText} from '../../actions';
 
 const styles = {
-    hide: {
-        display: 'none'
-    },
-    show: {
-        display: ''
-    },
-    progress: {
-      padding: 10
-    },
     root: {
-        padding: '2px 4px',
-        paddingLeft: 24,
         display: 'flex',
         alignItems: 'center',
         maxWidth: 500,
-        backgroundColor: '#f1f3f4',
-        borderRadius: 0
+        padding: 2,
+        paddingLeft: 24,
     },
     input: {
         marginLeft: 8,
@@ -41,7 +29,16 @@ const styles = {
         width: 1,
         height: 28,
         margin: 4,
-    }
+    },
+    hide: {
+        display: 'none'
+    },
+    show: {
+        display: ''
+    },
+    progress: {
+        padding: 10
+    },
 };
 
 class TagsSearchBox extends React.Component {
@@ -64,7 +61,7 @@ class TagsSearchBox extends React.Component {
 
         return (
             <form onSubmit={this.onFormSubmit} noValidate autoComplete="off">
-                <Paper className={classes.root} elevation={0}>
+                <div className={classes.root}>
                     <InputBase className={classes.input} placeholder="Search tags by name" value={searchText} onChange={event => this.props.setTagSearchText(event.target.value)} />
                     
                     <CircularProgress size={24} className={`${classes.progress} ${loading ? classes.show : classes.hide}`} />
@@ -83,7 +80,7 @@ class TagsSearchBox extends React.Component {
                             <SearchIcon />
                         </IconButton>
                     </Tooltip>
-                </Paper>
+                </div>
 
             </form>
         );

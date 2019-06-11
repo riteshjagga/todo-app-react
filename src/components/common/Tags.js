@@ -13,12 +13,13 @@ const styles = {
         marginRight: 5
     },
     tag: {
+        fontSize: '0.8125rem',
         cursor: 'pointer',
         padding: '0.2em 0.6em 0.3em',
         border: '1px solid #FFD600',
         backgroundColor: 'transparent',
         color: '#333',
-        borderRadius: 2,
+        borderRadius: 16,
         marginRight: 5,
         '&:last-child': {
             marginRight: 0
@@ -50,7 +51,7 @@ class Tags extends React.Component {
                 <Grid item className={classes.tagIcon}>
                     <BookmarkBorderIcon fontSize="default"/>
                 </Grid>
-                {this.renderTags()}
+                <Grid item>{this.renderTags()}</Grid>
             </Grid>
         );
     }

@@ -13,7 +13,7 @@ import {
 } from "../../actions";
 import TodosTable from './TodosTable';
 
-class TodosList extends React.Component {
+export class TodosList extends React.Component {
 
     componentDidMount() {
         this.props.fetchTodos(1);

@@ -9,6 +9,10 @@ import history from '../../history';
 import PaginationItems from "../common/PaginationItems";
 
 const styles = {
+    root: {
+        borderRadius: 0,
+        backgroundColor: '#f1f3f4'
+    },
     itemRow: {
         padding: '10px 24px',
         borderBottom: '1px solid #e0e0e0',
@@ -23,7 +27,7 @@ class TodosHeader extends React.Component {
         const {classes, loading, page, totalPages, itemsPerPage, totalTodos, selectedFilter, searchText} = this.props;
 
         return (
-            <Paper elevation={0} style={{borderRadius: 0}}>
+            <Paper elevation={0} className={classes.root}>
                 <Grid container direction="column" alignItems="flex-start" justify="space-between">
                     <Grid item container alignItems="flex-start" justify="space-between" className={classes.itemRow}>
                         <Grid item>

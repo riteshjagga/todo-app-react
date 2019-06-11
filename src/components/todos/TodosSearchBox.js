@@ -1,6 +1,5 @@
 import React from 'react';
 import {withStyles} from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Button from '@material-ui/core/Button';
@@ -18,23 +17,12 @@ import {connect} from 'react-redux';
 import {setTodoSearchText} from '../../actions';
 
 const styles = {
-    hide: {
-        display: 'none'
-    },
-    show: {
-        display: ''
-    },
-    progress: {
-      padding: 10
-    },
     root: {
-        padding: '2px 4px',
-        paddingLeft: 24,
         display: 'flex',
         alignItems: 'center',
         maxWidth: 500,
-        backgroundColor: '#f1f3f4',
-        borderRadius: 0
+        padding: 2,
+        paddingLeft: 24,
     },
     input: {
         marginLeft: 8,
@@ -47,7 +35,16 @@ const styles = {
         width: 1,
         height: 28,
         margin: 4,
-    }
+    },
+    hide: {
+        display: 'none'
+    },
+    show: {
+        display: ''
+    },
+    progress: {
+        padding: 10
+    },
 };
 
 class TodosSearchBox extends React.Component {
@@ -87,7 +84,7 @@ class TodosSearchBox extends React.Component {
 
         return (
             <form onSubmit={this.onFormSubmit} noValidate autoComplete="off">
-                <Paper className={classes.root} elevation={0}>
+                <div className={classes.root}>
                     <Button aria-owns={anchorEl ? 'todos-filter-menu' : undefined} aria-haspopup="true" onClick={this.handleClick}>
                         {selectedFilter.label} <ArrowDropDownCircleIcon/>
                     </Button>
@@ -115,8 +112,7 @@ class TodosSearchBox extends React.Component {
                             <SearchIcon />
                         </IconButton>
                     </Tooltip>
-                </Paper>
-
+                </div>
             </form>
         );
     }
@@ -124,9 +120,10 @@ class TodosSearchBox extends React.Component {
 
 const TodosSearchBoxStyled = withStyles(styles)(TodosSearchBox);
 
-const mapStateToProps = (state) => {
+/*const mapStateToProps = (state) => {
+    console.log(state.todosList);
     return state.todosList;
-};
+};*/
 
-export default connect(mapStateToProps, {setTodoSearchText})(TodosSearchBoxStyled);
+export default connect(null, {setTodoSearchText})(TodosSearchBoxStyled);
 
