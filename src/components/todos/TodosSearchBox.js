@@ -47,7 +47,7 @@ const styles = {
     },
 };
 
-class TodosSearchBox extends React.Component {
+export class TodosSearchBox extends React.Component {
 
     state = {anchorEl: null};
 

@@ -49,7 +49,6 @@ export const fetchTodos = page => async (dispatch, getState) => {
 
     try {
         const response = await todoApi.get(url, {params});
-        //const response = axios.get('http://localhost:3000/todos', {params});
         const {todos, count: totalTodos} = response.data;
         dispatch({type: FETCH_TODOS_SUCCESS, payload: {page, todos, totalTodos}});
     } catch(error) {

@@ -4,7 +4,7 @@ import {
     GET_TAG_FAILURE
 } from '../actions/types';
 
-const INITIAL_STATE = {
+export const INITIAL_STATE = {
     loading: true,
     isNew: true,
     tag: {

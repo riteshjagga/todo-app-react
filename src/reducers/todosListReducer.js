@@ -7,7 +7,7 @@ import {
     RESTORE_TODO_REQUEST, RESTORE_TODO_SUCCESS, RESTORE_TODO_FAILURE
 } from '../actions/types';
 
-const INITIAL_STATE = {
+export const INITIAL_STATE = {
     loading: false,
     todos: [],
     totalTodos: 0,

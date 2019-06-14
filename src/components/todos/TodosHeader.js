@@ -22,7 +22,7 @@ const styles = {
     }
 };
 
-class TodosHeader extends React.Component {
+export class TodosHeader extends React.Component {
     render() {
         const {classes, loading, page, totalPages, itemsPerPage, totalTodos, selectedFilter, searchText} = this.props;
 
@@ -31,7 +31,7 @@ class TodosHeader extends React.Component {
                 <Grid container direction="column" alignItems="flex-start" justify="space-between">
                     <Grid item container alignItems="flex-start" justify="space-between" className={classes.itemRow}>
                         <Grid item>
-                            <Typography variant="h6" color="inherit">Todos</Typography>
+                            <Typography variant="h6" color="inherit"><span id="page-title">Todos</span></Typography>
                         </Grid>
                         <Grid item>
                             <Button variant="contained" color="primary" onClick={() => history.push('/todos/new')}>Add Todo</Button>

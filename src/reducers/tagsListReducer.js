@@ -5,7 +5,7 @@ import {
     SET_TAG_SEARCH_TEXT
 } from '../actions/types';
 
-const INITIAL_STATE = {
+export const INITIAL_STATE = {
     loading: false,
     tags: [],
     totalTags: 0,

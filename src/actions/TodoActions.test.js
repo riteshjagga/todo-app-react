@@ -370,4 +370,50 @@ describe('todo actions', () => {
         });
     });
 
+    describe('restoring todo', () => {
+        beforeEach(() => {
+            mock = new MockAdapter(todoApi);
+
+            store = mockStore({
+                todosList: {
+                    loading: false,
+                    todos: [],
+                    totalTodos: 0,
+                    page: 1,
+                    totalPages: 0,
+                    itemsPerPage: 10,
+                    filter: TodoFilterEnum.ACTIVE,
+                    searchText: ''
+                }
+            });
+        });
+
+        it('creates RESTORE_TODO_REQUEST & RESTORE_TODO_SUCCESS when server returns a successful response', () => {
+            const todoId = 1;
+            mock.onPatch(`/todos/${todoId}/undo_delete`).reply(200, {});
+
+            const expectedActions = [
+                {type: types.RESTORE_TODO_REQUEST, payload: {id: todoId}},
+                {type: types.RESTORE_TODO_SUCCESS, payload: {id: todoId}},
+                {type: types.FETCH_TODOS_REQUEST}
+            ];
+
+            return store.dispatch(actions.restoreTodo(todoId))
+                .then(() => expect(store.getActions()).toEqual(expectedActions));
+        });
+
+        it('creates RESTORE_TODO_REQUEST & RESTORE_TODO_FAILURE when server returns an error response', () => {
+            const todoId = 1;
+            mock.onPatch(`/todos/${todoId}/undo_delete`).reply(500, {});
+
+            const expectedActions = [
+                {type: types.RESTORE_TODO_REQUEST, payload: {id: todoId}},
+                {type: types.RESTORE_TODO_FAILURE, payload: {id: todoId, error: new Error('Request failed with status code 500')}}
+            ];
+
+            return store.dispatch(actions.restoreTodo(todoId))
+                .then(() => expect(store.getActions()).toEqual(expectedActions));
+        });
+    });
+
 });

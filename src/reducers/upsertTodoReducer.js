@@ -4,7 +4,7 @@ import {
     GET_TODO_TAGS_FAILURE
 } from '../actions/types';
 
-const INITIAL_STATE = {
+export const INITIAL_STATE = {
     loading: true,
     isNew: true,
     todo: {

@@ -20,32 +20,36 @@ const store = mockStore({});
 
 configure({ adapter: new Adapter() });
 
+function shallowSetup() {
+    const props = {
+        loading: true,
+        todos: [],
+        totalTodos: 10,
+        page: 1,
+        totalPages: 1,
+        itemsPerPage: 10,
+        searchText: '',
+        filter: {key: 'active', label: 'Active'},
+        fetchTodos: jest.fn()
+    };
+
+    const component = mount(
+        <Provider store={store}>
+            <TodosList {...props} />
+        </Provider>
+    );
+
+    return {props, component};
+}
+
 describe('TodosList page', () => {
     it('renders with header and table', () => {
-
-        const props = {
-            loading: true,
-            todos: [],
-            totalTodos: 10,
-            page: 1,
-            totalPages: 1,
-            itemsPerPage: 10,
-            searchText: '',
-            filter: {key: 'active', label: 'Active'},
-            fetchTodos: jest.fn()
-        };
-
-        const component = mount(
-            <Provider store={store}>
-                <TodosList {...props} />
-            </Provider>
-        );
-
+        const {props, component} = shallowSetup();
         expect(component.find(TodosHeader).length).toBe(1);
         expect(component.find(TodosTable).length).toBe(1);
     });
 
-    it('renders header with pagination component', () => {
+    /*it('renders header with pagination component', () => {
         const props = {
             loading: true,
             todos: [],
@@ -67,8 +71,6 @@ describe('TodosList page', () => {
         expect(component.find(PaginationItems).length).toBe(1);
         expect(component.find('#pagination-text').length).toBe(1);
         expect(component.find('#pagination-text').text()).toBe('1-10 of 25');
-    });
-
-
+    });*/
 });
 
