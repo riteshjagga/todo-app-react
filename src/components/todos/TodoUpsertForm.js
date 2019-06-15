@@ -65,6 +65,7 @@ class TodoUpsertForm extends React.Component {
 
     renderForm = () => {
         const {classes, tags, loading, submitting} = this.props;
+        console.log(this.props);
 
         if(loading) {
             return (
@@ -129,5 +130,5 @@ const validate = formValues => {
     return errors;
 };
 
-const TodoUpsertFormStyled = withStyles(styles)(TodoUpsertForm);
+export const TodoUpsertFormStyled = withStyles(styles)(TodoUpsertForm);
 export default reduxForm({form: 'todoUpsertForm', validate, enableReinitialize: true, touchOnChange: true})(TodoUpsertFormStyled);

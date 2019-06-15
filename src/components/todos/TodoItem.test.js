@@ -1,6 +1,6 @@
 import React from 'react';
 import { configure, shallow } from 'enzyme';
-import Adaptor from 'enzyme-adapter-react-16';
+import Adapter from 'enzyme-adapter-react-16';
 import { createShallow } from '@material-ui/core/test-utils';
 import TodoItem from './TodoItem';
 import Select from '@material-ui/core/Select';
@@ -14,9 +14,10 @@ import RestoreIcon from '@material-ui/icons/Restore';
 import Tags from '../common/Tags';
 import history from '../../history';
 
-configure({adapter: new Adaptor()});
+configure({adapter: new Adapter()});
 
 describe('TodoItem', () => {
+
     let shallow;
 
     function shallowSetup(isDeleted) {

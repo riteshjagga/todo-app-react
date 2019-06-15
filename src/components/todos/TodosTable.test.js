@@ -1,11 +1,11 @@
 import React from 'react';
 import { configure, shallow } from 'enzyme';
-import Adaptor from 'enzyme-adapter-react-16';
+import Adapter from 'enzyme-adapter-react-16';
 import TodosTable from './TodosTable';
 import NoDataMessageForTable from '../common/NoDataMessageForTable';
 import TodoItem from './TodoItem';
 
-configure({adapter: new Adaptor()});
+configure({adapter: new Adapter()});
 
 function getIndexForDisplay (index, page, itemsPerPage) {
     return ((page - 1) * itemsPerPage) + index + 1;

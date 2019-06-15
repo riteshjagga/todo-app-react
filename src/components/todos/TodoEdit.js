@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import TodoUpsertForm from './TodoUpsertForm';
 import {getTodoTags, upsertTodo} from '../../actions';
 
-class TodoEdit extends React.Component {
+export class TodoEdit extends React.Component {
     componentDidMount() {
         this.props.getTodoTags(this.props.match.params.id);
     }
